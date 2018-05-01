@@ -3,3 +3,6 @@ server:
 spring:
   profiles:
     active: dev
+
+app:
+  sample-text: This text is from config

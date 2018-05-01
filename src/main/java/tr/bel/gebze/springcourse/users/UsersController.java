@@ -1,12 +1,17 @@
 package tr.bel.gebze.springcourse.users;
 
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tr.bel.gebze.springcourse.ResourceNotFound;
+import tr.bel.gebze.springcourse.validation.UniqueTcknValidator;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 /**
@@ -17,12 +22,16 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/users")
 @Slf4j // private static final Logger log = LoggerFactory.getLogger(UsersController.class);
+@AllArgsConstructor
 public class UsersController {
 
 	private final UserRepository userRepository;
 
-	public UsersController(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	private final UniqueTcknValidator uniqueTcknValidator;
+
+	@InitBinder
+	void addValidator(WebDataBinder webDataBinder) {
+		webDataBinder.addValidators(uniqueTcknValidator);
 	}
 
 	@GetMapping
@@ -53,7 +62,13 @@ public class UsersController {
 	}
 
 	@PostMapping
-	String create(User user, RedirectAttributes redirectAttributes) {
+	String create(@Valid User user, BindingResult bindingResult, RedirectAttributes redirectAttributes) {
+
+		if(bindingResult.hasErrors()) {
+
+			return "users";
+		}
+
 
 		userRepository.save(user);
 		log.debug("User created {}", user);
@@ -68,6 +83,12 @@ public class UsersController {
 		redirectAttributes.addAttribute("tckn", user.getTckn());
 
 		return "redirect:/users";// https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/PostRedirectGet_DoubleSubmitSolution.png/350px-PostRedirectGet_DoubleSubmitSolution.png
+	}
+
+	@ExceptionHandler(Exception.class)
+	String exceptionHandler() {
+		//TODO
+		return "users";
 	}
 
 }

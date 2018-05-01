@@ -33,7 +33,7 @@ public class InitialDataGenerator implements CommandLineRunner {
 		User user = User.builder()
 				.username("john")
 				.password("123qwe123")
-				.tckn(123123L)
+				.tckn(12345678901L)
 				.profile(profile)
 				.build();
 

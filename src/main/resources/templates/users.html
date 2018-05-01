@@ -6,52 +6,96 @@
 </head>
 <main layout:fragment="main">
 
-<h1>Users</h1>
+    <h1>Users</h1>
 
-<p th:text="${userId}"></p>
+    <p th:text="${userId}"></p>
 
-<h2 th:text="#{user.user_creation}">User Creation</h2>
+    <h2 th:text="#{user.user_creation}">User Creation</h2>
 
-<form th:action="@{/users}" th:object="${user}" method="post">
-    <label th:for="*{username}" th:text="#{user.username}">Username</label>
-    <input th:field="*{username}" th:value="*{username}">
-    <br>
-    <label th:for="*{tckn}" th:text="Tckn">Age</label>
-    <input th:field="*{tckn}" th:value="*{tckn}">
-    <br>
-    <label th:for="*{password}" th:text="Password">Age</label>
-    <input th:field="*{password}" th:value="*{password}">
+    <form th:action="@{/users}" th:object="${user}" method="post" th:check-tckn="@{/api/v1/users/check-tckn-unique}">
 
-    <fieldset>
-        <legend>Profile</legend>
-        <label  th:text="Age"></label>
-        <input th:field="*{profile.age}" th:value="*{profile.age}">
+        <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" style="color:red">Global error</p>
+
+        <div class="form-group">
+            <label th:for="*{username}" th:text="#{user.username}">Username</label>
+            <input class="form-control" th:field="*{username}" th:value="*{username}" th:errorclass="is-invalid">
+            <div class="invalid-feedback" th:errors="*{username}">Error message</div>
+        </div>
         <br>
-        <label  th:text="Adress"></label>
-        <input th:field="*{profile.address}" th:value="*{profile.address}">
+        <div class="form-group">
+            <label th:for="*{tckn}" th:text="Tckn">Age</label>
+            <input class="form-control" th:field="*{tckn}" th:value="*{tckn}" th:errorclass="is-invalid">
+            <div class="invalid-feedback" th:errors="*{tckn}">Error message</div>
+            <div id="tcknMsg" class="invalid-feedback">Tckn is in use!</div>
+        </div>
         <br>
-        <label th:text="PhoneNumber"></label>
-        <input th:field="*{profile.phoneNumber}" th:value="*{profile.phoneNumber}">
-    </fieldset>
+        <div class="form-group">
+            <label th:for="*{password}" th:text="Password">Age</label>
+            <input class="form-control" th:field="*{password}" th:value="*{password}" th:errorclass="is-invalid">
+            <div class="invalid-feedback" th:errors="*{password}">Error message</div>
+        </div>
 
-    <button>Send</button>
-</form>
-
-
-<h2>User List</h2>
-
-<div class="container">
-    <ul class="list-group">
-        <li class="list-group-item" th:each="usr : ${userList}" th:object="${usr}">
-            <strong th:text="*{username}">John Doe</strong> - <span th:text="*{tckn}">33</span> - <span th:text="*{password}">1234</span>
-            <div>
-                <a th:href="@{/users/{id}/profile(id=*{id})}">Go to profile</a>
-
-                <a th:href="@{/users/__*{id}__/profile}">Go to profile</a>
+        <fieldset>
+            <legend>Profile</legend>
+            <div class="form-group">
+                <label th:text="Age"></label>
+                <input class="form-control" th:field="*{profile.age}" th:value="*{profile.age}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:errors="*{profile.age}">Error message</div>
             </div>
-        </li>
-    </ul>
-</div>
+            <br>
+            <div class="form-group">
+                <label th:text="Adress"></label>
+                <input class="form-control" th:field="*{profile.address}" th:value="*{profile.address}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:errors="*{profile.address}">Error message</div>
+            </div>
+            <br>
+            <div class="form-group">
+                <label th:text="PhoneNumber"></label>
+                <input class="form-control" th:field="*{profile.phoneNumber}" th:value="*{profile.phoneNumber}" th:errorclass="is-invalid">
+                <div class="invalid-feedback" th:errors="*{profile.phoneNumber}">Error message</div>
+            </div>
+        </fieldset>
+
+        <button id="sendBtn" class="btn btn-primary">Send</button>
+    </form>
+
+
+    <h2>User List</h2>
+
+    <div class="container">
+        <ul class="list-group">
+            <li class="list-group-item" th:each="usr : ${userList}" th:object="${usr}">
+                <strong th:text="*{username}">John Doe</strong> - <span th:text="*{tckn}">33</span> - <span th:text="*{password}">1234</span>
+                <div>
+                    <a th:href="@{/users/{id}/profile(id=*{id})}">Go to profile</a>
+
+                    <a th:href="@{/users/__*{id}__/profile}">Go to profile</a>
+                </div>
+            </li>
+        </ul>
+    </div>
 </main>
+
+<th:block layout:fragment="js">
+    <script th:inline="javascript">
+
+        const CONTEXT_ROOT = [[${#httpServletRequest.getContextPath()}]];
+
+        $('#tckn').on('blur', function() {
+
+            $('#sendBtn').attr('disabled', false);
+            $('#tckn').removeClass('is-invalid');
+            $('#tcknMsg').hide();
+
+            $.get( CONTEXT_ROOT + '/api/v1/users/check-tckn-unique?tckn=' + this.value, response => {
+                if(response === false) {
+                    $('#sendBtn').attr('disabled', true);
+                    $('#tckn').addClass('is-invalid');
+                    $('#tcknMsg').show();
+                }
+            });
+        });
+    </script>
+</th:block>
 
 </html>
