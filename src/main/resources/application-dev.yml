@@ -1,2 +1,6 @@
 server:
   port: 8080
+
+better-error-pages:
+  package-name: tr.bel.gebze
+

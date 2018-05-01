@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title th:text="Profile"></title>
+</head>
+<body>
+
+<!--<div th:if="${param.containsKey('success')} && ${param.success[0] == true}">-->
+    <!--<p th:text="#{profile.success_message}">Success message</p>-->
+<!--</div>-->
+
+
+<h2>Profile List</h2>
+
+<th:block th:object="${profile}">
+    <strong th:text="*{age}">12</strong> - <span th:text="*{address}">add</span> - <span th:text="*{phoneNumber}">1234</span>
+</th:block>
+
+</body>
+</html>

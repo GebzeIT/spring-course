@@ -5,6 +5,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import tr.bel.gebze.springcourse.ResourceNotFound;
+
+import java.util.Optional;
 
 /**
  * Created on April, 2018
@@ -24,7 +27,7 @@ public class UsersController {
 
 	@GetMapping
 	String list(@RequestParam(value = "success", defaultValue = "false") Boolean success, User user, Model model,
-			@RequestParam(value = "user.name", defaultValue = "") String name) {
+			@RequestParam(value = "tckn", defaultValue = "") Long tckn) {
 
 		if(success) {
 			return "success";
@@ -33,18 +36,20 @@ public class UsersController {
 //		User user = new User();
 //		user.setName("Sample user");
 
-		user.setUsername(name);
+		user.setTckn(tckn);
 		model.addAttribute("user", user);
 		model.addAttribute("userList", userRepository.findAll());
 		return "users";
 	}
 
 	@GetMapping("/{id}")
-	String details(Model model, @PathVariable("id") int id) {
+	String details(Model model, @PathVariable("id") Long id) {
 
-		model.addAttribute("userId", id);
+		Optional<User> user = userRepository.findById(id);
 
-		return "hello";
+		model.addAttribute("user", user.orElseThrow(ResourceNotFound::new));
+
+		return "user-details";
 	}
 
 	@PostMapping
@@ -59,8 +64,8 @@ public class UsersController {
 //		user = new User();// Won't work due to the fact that it's not a pointer but a reference.
 //		return "users";
 
-		redirectAttributes.addAttribute("user.name", user.getUsername());
-		redirectAttributes.addAttribute("user.age", user.getAge());
+
+		redirectAttributes.addAttribute("tckn", user.getTckn());
 
 		return "redirect:/users";// https://upload.wikimedia.org/wikipedia/commons/thumb/3/3c/PostRedirectGet_DoubleSubmitSolution.png/350px-PostRedirectGet_DoubleSubmitSolution.png
 	}

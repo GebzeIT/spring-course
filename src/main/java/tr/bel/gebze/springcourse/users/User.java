@@ -1,12 +1,9 @@
 package tr.bel.gebze.springcourse.users;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
+import tr.bel.gebze.springcourse.profile.Profile;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 /**
  * Created on April, 2018
@@ -17,6 +14,9 @@ import javax.persistence.Id;
 @Setter
 @ToString
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
 
 	@Id
@@ -25,6 +25,11 @@ public class User {
 
 	private String username;
 
-	private Integer age;
+	private Long tckn;
+
+	private String password;
+
+	@OneToOne(cascade = CascadeType.ALL)
+	private Profile profile = new Profile();
 
 }

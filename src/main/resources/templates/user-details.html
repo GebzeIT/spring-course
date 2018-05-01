@@ -1,17 +1,6 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<h2 th:text="#{user.user_creation}">User Details</h2>
 
-<head>
-    <title th:text="#{user.page_title}"></title>
-</head>
-
-<h1>Users</h1>
-
-<p th:text="${userId}"></p>
-
-<h2 th:text="#{user.user_creation}">User Creation</h2>
-
-<form th:action="@{/users}" th:object="${user}" method="post">
+<form  th:object="${user}" method="post">
     <label th:for="*{username}" th:text="#{user.username}">Username</label>
     <input th:field="*{username}" th:value="*{username}">
     <br>
@@ -35,14 +24,3 @@
 
     <button>Send</button>
 </form>
-
-
-<h2>User List</h2>
-
-<ul>
-    <li th:each="usr : ${userList}" th:object="${usr}">
-        <strong th:text="*{username}">John Doe</strong> - <span th:text="*{tckn}">33</span> - <span th:text="*{password}">1234</span>
-    </li>
-</ul>
-
-</html>
