@@ -1,3 +1,6 @@
+<!DOCTYPE html>
+<html layout:decorate="~{page-layout.html}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<main layout:fragment="main">
 <h2 th:text="#{user.user_creation}">User Details</h2>
 
 <form  th:object="${user}" method="post">
@@ -24,3 +27,5 @@
 
     <button>Send</button>
 </form>
+</main>
+</html>

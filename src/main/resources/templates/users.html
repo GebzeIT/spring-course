@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html layout:decorate="~{page-layout.html}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
 <head>
     <title th:text="#{user.page_title}"></title>
 </head>
+<main layout:fragment="main">
 
 <h1>Users</h1>
 
@@ -44,5 +45,6 @@
         <strong th:text="*{username}">John Doe</strong> - <span th:text="*{tckn}">33</span> - <span th:text="*{password}">1234</span>
     </li>
 </ul>
+</main>
 
 </html>
