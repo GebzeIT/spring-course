@@ -1,20 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-
+<html layout:decorate="~{page-layout.html}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <title th:text="Profile"></title>
+
+    <link rel="stylesheet" th:href="@{/styles/profile.css}">
 </head>
 <body>
 
+<main layout:fragment="main">
 <!--<div th:if="${param.containsKey('success')} && ${param.success[0] == true}">-->
     <!--<p th:text="#{profile.success_message}">Success message</p>-->
 <!--</div>-->
-
 
 <h2>Profile List</h2>
 
 <th:block th:object="${profile}">
     <strong th:text="*{age}">12</strong> - <span th:text="*{address}">add</span> - <span th:text="*{phoneNumber}">1234</span>
+</th:block>
+
+</main>
+
+<th:block layout:fragment="js">
+    <script>
+        $(document);
+        console.log('Here I am after jquery & bootstrap are loaded.');
+    </script>
 </th:block>
 
 </body>
