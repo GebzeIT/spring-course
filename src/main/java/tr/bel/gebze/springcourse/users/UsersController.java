@@ -69,7 +69,6 @@ public class UsersController {
 			return "users";
 		}
 
-
 		userRepository.save(user);
 		log.debug("User created {}", user);
 

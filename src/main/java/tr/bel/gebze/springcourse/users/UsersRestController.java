@@ -10,7 +10,7 @@ import tr.bel.gebze.springcourse.ResourceNotFound;
 import java.util.List;
 
 /**
- * Created on April, 2018
+ * https://httpstatuses.com/
  *
  * @author destan
  */
@@ -40,7 +40,7 @@ public class UsersRestController {
 	@PostMapping
 	ResponseEntity<Void> create(@RequestBody User user) {
 		userRepository.save(user);
-		return ResponseEntity.status(HttpStatus.CREATED).build();
+		return ResponseEntity.status(HttpStatus.CREATED).build();// see https://httpstatuses.com/
 	}
 
 	@DeleteMapping("/{id}")
