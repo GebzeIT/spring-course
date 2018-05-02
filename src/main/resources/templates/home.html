@@ -1,5 +1,9 @@
 <!DOCTYPE html>
-<html layout:decorate="~{page-layout.html}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html layout:decorate="~{page-layout.html}"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 
 <head>
     <title th:text="#{user.page_title}"></title>
@@ -8,6 +12,13 @@
 <main layout:fragment="main">
 
     <h1>Home Page</h1>
+
+    <p sec:authorize="isAuthenticated()">You are loggedin</p>
+    <p sec:authorize="!isAuthenticated()">You are NOT loggedin</p>lerd
+
+    <th:block sec:authorize="isAuthenticated()">
+        <p th:text="${#authentication.name}"></p>
+    </th:block>
 
 </main>
 </body>

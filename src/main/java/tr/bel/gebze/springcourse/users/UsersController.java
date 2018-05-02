@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import tr.bel.gebze.springcourse.ResourceNotFound;
 import tr.bel.gebze.springcourse.validation.UniqueTcknValidator;
@@ -23,7 +24,7 @@ import java.util.Optional;
 @RequestMapping("/users")
 @Slf4j // private static final Logger log = LoggerFactory.getLogger(UsersController.class);
 @AllArgsConstructor
-public class UsersController {
+class UsersController {
 
 	private final UserRepository userRepository;
 
@@ -31,7 +32,7 @@ public class UsersController {
 
 	@InitBinder
 	void addValidator(WebDataBinder webDataBinder) {
-		webDataBinder.addValidators(uniqueTcknValidator);
+//		webDataBinder.addValidators(uniqueTcknValidator);
 	}
 
 	@GetMapping
@@ -85,9 +86,13 @@ public class UsersController {
 	}
 
 	@ExceptionHandler(Exception.class)
-	String exceptionHandler() {
+	ModelAndView exceptionHandler() {
 		//TODO
-		return "users";
+
+		ModelAndView model = new ModelAndView("users");
+		model.addObject("errMsg", "this is Exception.class");
+
+		return model;
 	}
 
 }
