@@ -55,8 +55,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.csrf().ignoringAntMatchers("/h2-console/**").and()
 			.headers().frameOptions().disable().and() // required for h2-console to work
 			.authorizeRequests()
-				.mvcMatchers("/", "/register",  "/styles/**").permitAll()
-				.mvcMatchers("/admin/**", "/h2-console/**").hasAnyAuthority("ADMIN")
+				.mvcMatchers("/", "/register/**", "/api/v1/users/check-tckn-unique/**", "/styles/**").permitAll()
+				.mvcMatchers("/admin/**").hasAnyAuthority("ADMIN")
 				.anyRequest().authenticated()
 			.and()
 			.formLogin()

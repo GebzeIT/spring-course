@@ -14,6 +14,8 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created on April, 2018
@@ -33,6 +35,9 @@ public class User implements UserDetails {
 	@Id
 	@GeneratedValue
 	private Long id;
+
+	@OneToMany(mappedBy = "owner", cascade = CascadeType.ALL)
+	private Set<Item> items = new HashSet<>();
 
 	@Size(min = 3)
 	@Column(nullable = false)

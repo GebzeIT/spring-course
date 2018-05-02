@@ -6,8 +6,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import tr.bel.gebze.springcourse.profile.Profile;
+import tr.bel.gebze.springcourse.users.Item;
 import tr.bel.gebze.springcourse.users.User;
 import tr.bel.gebze.springcourse.users.UserRepository;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created on May, 2018
@@ -27,6 +32,7 @@ public class InitialDataGenerator implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
+
 		Profile profile = Profile.builder()
 				.address("izmir")
 				.age(33)
@@ -40,6 +46,10 @@ public class InitialDataGenerator implements CommandLineRunner {
 				.profile(profile)
 				.build();
 
+		Set<Item> items1 = new HashSet<>(Arrays.asList(new Item("x1", user), new Item("x2", user)));
+		user.setItems(items1);
+
+
 		Profile profile2 = Profile.builder()
 				.address("izmir")
 				.age(33)
@@ -52,6 +62,10 @@ public class InitialDataGenerator implements CommandLineRunner {
 				.tckn(12345678902L)
 				.profile(profile2)
 				.build();
+
+		Set<Item> items2 = new HashSet<>(Arrays.asList(new Item("y1", user2), new Item("y2", user2)));
+		user2.setItems(items2);
+
 
 		userRepository.save(user);
 		userRepository.save(user2);

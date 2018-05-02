@@ -3,6 +3,8 @@ server:
 spring:
   profiles:
     active: dev
+  jpa:
+    open-in-view: false
 
 app:
   sample-text: This text is from config

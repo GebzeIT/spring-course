@@ -8,7 +8,7 @@
 
     <h1 th:text="#{registration.page_title}">User Regs</h1>
 
-    <form th:action="@{/users}" th:object="${user}" method="post" th:check-tckn="@{/api/v1/users/check-tckn-unique}">
+    <form th:action="@{/register}" th:object="${user}" method="post" th:check-tckn="@{/api/v1/users/check-tckn-unique}">
 
         <p th:if="${#fields.hasErrors('global')}" th:errors="*{global}" style="color:red">Global error</p>
 

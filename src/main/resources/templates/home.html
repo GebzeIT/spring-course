@@ -10,6 +10,12 @@
 <body>
 <main layout:fragment="main">
 
+    <th:block th:if="${param.registration}">
+        <div class="alert alert-success" role="alert">
+        Registration successful, please login.
+        </div>
+    </th:block>
+
     <h1>Home Page</h1>
 
 </main>
