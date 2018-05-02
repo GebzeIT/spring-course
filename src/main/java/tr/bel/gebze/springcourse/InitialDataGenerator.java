@@ -3,6 +3,7 @@ package tr.bel.gebze.springcourse;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import tr.bel.gebze.springcourse.profile.Profile;
 import tr.bel.gebze.springcourse.users.User;
@@ -21,6 +22,8 @@ public class InitialDataGenerator implements CommandLineRunner {
 
 	private final UserRepository userRepository;
 
+	private final PasswordEncoder passwordEncoder;
+
 	@Override
 	public void run(String... args) throws Exception {
 
@@ -32,12 +35,26 @@ public class InitialDataGenerator implements CommandLineRunner {
 
 		User user = User.builder()
 				.username("john")
-				.password("123qwe123")
+				.password(passwordEncoder.encode("123qwe123"))
 				.tckn(12345678901L)
 				.profile(profile)
 				.build();
 
+		Profile profile2 = Profile.builder()
+				.address("izmir")
+				.age(33)
+				.phoneNumber("505 99 987")
+				.build();
+
+		User user2 = User.builder()
+				.username("joe")
+				.password(passwordEncoder.encode("123qwe123"))
+				.tckn(12345678902L)
+				.profile(profile2)
+				.build();
+
 		userRepository.save(user);
+		userRepository.save(user2);
 		log.info("Default user created {}", user);
 	}
 }

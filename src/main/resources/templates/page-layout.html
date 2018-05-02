@@ -1,5 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+>
 <head>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <title>Sample Application</title>
@@ -20,7 +23,19 @@
         <th:block th:replace="::menuItem(url='/', text='Home')" />
         <th:block th:replace="::menuItem(url='/users', text='Users')" />
     </nav>
-    <a class="btn btn-outline-primary" href="#">Sign up</a>
+    <a class="btn btn-outline-primary" th:href="@{/login}" sec:authorize="!isAuthenticated()">Sign in</a>
+
+    <div class="dropdown" sec:authorize="isAuthenticated()">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Hello <th:block th:text="${#authentication.name}"/>
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" th:href="@{/my-profile}">My Profile</a>
+            <form th:action="@{/logout}" method="post">
+                <button class="dropdown-item">Logout</button>
+            </form>
+        </div>
+    </div>
 </nav>
 
 <main class="container" layout:fragment="main">

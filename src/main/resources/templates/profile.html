@@ -12,9 +12,9 @@
     <!--<p th:text="#{profile.success_message}">Success message</p>-->
 <!--</div>-->
 
-<h2>Profile List</h2>
+<h2>[[${user.username}]]'s Profile</h2>
 
-<th:block th:object="${profile}">
+<th:block th:object="${user.profile}">
     <strong th:text="*{age}">12</strong> - <span th:text="*{address}">add</span> - <span th:text="*{phoneNumber}">1234</span>
 </th:block>
 

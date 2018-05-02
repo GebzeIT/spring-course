@@ -1,6 +1,9 @@
 package tr.bel.gebze.springcourse.users;
 
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.UserDetails;
 import tr.bel.gebze.springcourse.profile.Profile;
 import tr.bel.gebze.springcourse.validation.Tckn;
 import tr.bel.gebze.springcourse.validation.ValidAdminPassword;
@@ -10,6 +13,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
+import java.util.Collection;
 
 /**
  * Created on April, 2018
@@ -24,7 +28,7 @@ import javax.validation.constraints.Size;
 @AllArgsConstructor
 @NoArgsConstructor
 @ValidAdminPassword
-public class User {
+public class User implements UserDetails {
 
 	@Id
 	@GeneratedValue
@@ -48,4 +52,28 @@ public class User {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Profile profile = new Profile();
 
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		return AuthorityUtils.createAuthorityList("USER");
+	}
+
+	@Override
+	public boolean isAccountNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isAccountNonLocked() {
+		return true;
+	}
+
+	@Override
+	public boolean isCredentialsNonExpired() {
+		return true;
+	}
+
+	@Override
+	public boolean isEnabled() {
+		return true;
+	}
 }
