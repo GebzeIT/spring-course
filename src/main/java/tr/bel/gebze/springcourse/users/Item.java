@@ -33,6 +33,11 @@ public class Item {
 	public Item(String name, User owner) {
 		this.name = name;
 		this.owner = owner;
+
+		if(name.contains("default")) {
+			//uncomment below code to observe rollback in registration
+			//throw new RuntimeException("Demo exception for transactions");
+		}
 	}
 
 

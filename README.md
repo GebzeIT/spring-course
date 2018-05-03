@@ -1,4 +1,4 @@
 http://localhost:8080/h2-console `jdbc:h2:mem:testdb`
 
-* Validations
-  - Error Handling TODO
+
+https://vladmihalcea.com/a-beginners-guide-to-jpa-hibernate-entity-state-transitions/

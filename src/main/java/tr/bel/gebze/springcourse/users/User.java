@@ -1,10 +1,9 @@
 package tr.bel.gebze.springcourse.users;
 
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.UserDetails;
 import tr.bel.gebze.springcourse.profile.Profile;
+import tr.bel.gebze.springcourse.security.Role;
 import tr.bel.gebze.springcourse.validation.Tckn;
 import tr.bel.gebze.springcourse.validation.ValidAdminPassword;
 
@@ -57,9 +56,14 @@ public class User implements UserDetails {
 	@OneToOne(cascade = CascadeType.ALL)
 	private Profile profile = new Profile();
 
+	@Embedded
+	@ElementCollection(fetch = FetchType.EAGER)
+	private Set<Role> authorities = new HashSet<>();
+
 	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return AuthorityUtils.createAuthorityList("USER");
+	public Collection<Role> getAuthorities() {
+//		return AuthorityUtils.createAuthorityList("USER");
+		return authorities;
 	}
 
 	@Override

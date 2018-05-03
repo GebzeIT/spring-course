@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html layout:decorate="~{page-layout.html}" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <title th:text="Profile"></title>
+
+    <link rel="stylesheet" th:href="@{/styles/profile.css}">
+</head>
+<body>
+
+<main layout:fragment="main">
+<!--<div th:if="${param.containsKey('success')} && ${param.success[0] == true}">-->
+    <!--<p th:text="#{profile.success_message}">Success message</p>-->
+<!--</div>-->
+
+<h2>[[${user.username}]]'s Profile</h2>
+
+    <form th:action="@{/users/__${user.id}__/profile/update}" method="post" th:object="${user.profile}">
+        <input type="hidden" th:field="*{id}" th:value="*{id}">
+        <div class="form-group">
+            <label>Age</label>
+            <input class="form-control" th:field="*{age}" th:value="*{age}" th:errorclass="is-invalid">
+            <div class="invalid-feedback" th:errors="*{age}">Error message</div>
+        </div>
+        <!--<div class="form-group">-->
+            <!--<label>Address</label>-->
+            <!--<input class="form-control" th:field="*{address}" th:value="*{address}" th:errorclass="is-invalid">-->
+            <!--<div class="invalid-feedback" th:errors="*{address}">Error message</div>-->
+        <!--</div>-->
+        <!--<div class="form-group">-->
+            <!--<label>Phone</label>-->
+            <!--<input class="form-control" th:field="*{phoneNumber}" th:value="*{phoneNumber}" th:errorclass="is-invalid">-->
+            <!--<div class="invalid-feedback" th:errors="*{phoneNumber}">Error message</div>-->
+        <!--</div>-->
+
+        <!--/* th:if="${#authentication.principal.id == user.id}" */-->
+        <button class="btn btn-primary" >Update</button>
+    </form>
+
+</main>
+
+<th:block layout:fragment="js">
+    <script>
+        $(document);
+        console.log('Here I am after jquery & bootstrap are loaded.');
+    </script>
+</th:block>
+
+</body>
+</html>

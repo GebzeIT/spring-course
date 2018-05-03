@@ -49,6 +49,7 @@ class DesktopNotification {
 	private void displayTray() {
 
 		try {
+			System.setProperty("java.awt.headless", "false");
 			if (SystemTray.isSupported()) {
 				final Image image = ImageIO.read(ClassLoader.getSystemResource("systemTrayIcon.png"));
 
