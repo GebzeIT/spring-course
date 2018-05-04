@@ -3,6 +3,7 @@ package tr.bel.gebze.springcourse;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import tr.bel.gebze.springcourse.security.UserDetailsImpl;
+import tr.bel.gebze.springcourse.security.UserDetailsServiceImpl;
 
 /**
  * Created on May, 2018
@@ -28,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //		auth.inMemoryAuthentication().withUser("joe").password("{noop}123qwe123").authorities("USER", "ADMIN");
 //	}
 
-	private final UserDetailsImpl userDetails;
+	private final UserDetailsServiceImpl userDetails;
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -66,6 +67,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			.logout()
 				.permitAll();
 		//@formatter:on
+	}
+
+	@Bean
+	@Override
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		// because https://github.com/spring-projects/spring-boot/issues/11136
+		return super.authenticationManagerBean();
 	}
 
 }

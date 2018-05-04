@@ -14,7 +14,7 @@ import tr.bel.gebze.springcourse.users.UserRepository;
  */
 @Service
 @AllArgsConstructor
-public class UserDetailsImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	private final UserRepository userRepository;
 

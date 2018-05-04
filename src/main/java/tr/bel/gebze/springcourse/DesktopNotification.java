@@ -63,6 +63,9 @@ class DesktopNotification {
 				log.error("System Tray is not supported. Try giving '-Djava.awt.headless=false' as a VM option.");
 			}
 		}
+		catch (IllegalArgumentException e) {
+			log.error("/resources/systemTrayIcon.png is not found!", e);
+		}
 		catch (Exception e) {
 			log.error("Unknown error occurred while trying to show system tray icon: " + e.getMessage(), e);
 		}

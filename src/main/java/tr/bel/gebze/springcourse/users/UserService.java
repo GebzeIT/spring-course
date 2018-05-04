@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import tr.bel.gebze.springcourse.CopyUtil;
 import tr.bel.gebze.springcourse.ResourceNotFound;
@@ -40,7 +42,8 @@ public class UserService {
 	public List<User> findAllUsers() {
 
 		log.info("findAllUsers without cache");
-		return itemPrinter.internal();// calling this.internal() won't work when using userRepository.findAll()
+//		return itemPrinter.internal();
+		return this.internal();// calling this.internal() won't work when using userRepository.findAll()
 	}
 
 	@CacheEvict(USERS_CACHE_NAME)
@@ -82,6 +85,9 @@ public class UserService {
 		return users;
 	}
 
+	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+		return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(username));
+	}
 
 }
 
